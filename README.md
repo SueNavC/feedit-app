@@ -1,4 +1,5 @@
 # Introduction
+
 The `docker-compose.yml` file provides access to `Feddit` which is a fake reddit API built to complete the Allianz challenge. 
 
 # How-to-run
