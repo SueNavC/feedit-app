@@ -16,7 +16,7 @@ def analyze_sentiment_keywords(comment: str) -> str:
         return "positive"
     elif "bad" in comment.lower() or "terrible" in comment.lower():
         return "negative"
-    return "neutral"
+    return "negative"  # Default to negative if no keywords are found
 
 # Polarity analysis with TextBlob
 def analyze_sentiment_textblob(comment: str) -> str:
@@ -27,23 +27,15 @@ def analyze_sentiment_textblob(comment: str) -> str:
     """
     analysis = TextBlob(comment)
     polarity = analysis.sentiment.polarity
-    if polarity > 0:
-        return "positive"
-    elif polarity < 0:
-        return "negative"
-    return "neutral"
+    return "positive" if polarity >= 0 else "negative"
 
 # Polarity analysis with VADER
 def analyze_sentiment_vader(comment: str) -> str:
     """
     This function analyzes the sentiment of a comment using VADER
     :param comment:
-    :return: "positive" if the compound score is greater than 0.05, "negative" if the compound score is less than -0.05, "neutral" otherwise
+    :return: "positive" if the compound score is greater than 0, "negative" if the compound score is less ot equal than 0.
     """
     analyzer = SentimentIntensityAnalyzer()
     score = analyzer.polarity_scores(comment)["compound"]
-    if score >= 0.05:
-        return "positive"
-    elif score <= -0.05:
-        return "negative"
-    return "neutral"
+    return "positive" if score >= 0 else "negative"
