@@ -1,0 +1,10 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Ignore the virtual environment folder
+.venv/
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
