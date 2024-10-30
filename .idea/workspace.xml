@@ -9,8 +9,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8831db29-9c5c-44e0-94d0-7acdde58b479" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.flake8" beforeDir="false" afterPath="$PROJECT_DIR$/.flake8" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sentiment_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/sentiment_analysis.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
