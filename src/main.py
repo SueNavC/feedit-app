@@ -1,14 +1,13 @@
 # Project: Engineering Challenge
-# Description: The task is to design and develop a microservice application that offers a FAST API.
-### This API will analyze comments within a given subfeddit (a mock Reddit category) to determine
-### if the comments are positive or negative.
-#Alternative2: NO use a database to store and retrieve comments for the subfeddit.
+# Description:
+# This is the main file for the FastAPI application
+# that will serve as the backend for the Feddit application.
 
 # By Susana Navarro
 # 25/10/2024
 
 from datetime import datetime, timezone
-from typing import Optional, List, Dict, Literal
+from typing import Optional, List, Literal
 from src.data_ingestion import fetch_comments
 from fastapi import FastAPI, Query, HTTPException
 
@@ -22,6 +21,7 @@ app = FastAPI()
 
 # Root endpoint to verify the API is running
 @app.get("/")
+
 async def root():
     return {"message": "Hello, Feddit API!"}
 
@@ -33,6 +33,7 @@ async def get_version():
 
 # Endpoint to analyze comments within a given subreddit
 @app.post("/analyze/")
+
 async def analyze_comments(
     subfeddit_id: Optional[List[int]] = None,
     method: Literal["keywords", "textblob", "vader"] = Query(...),
@@ -59,8 +60,10 @@ async def analyze_comments(
 
     try:
         # Convert start_date and end_date to epoch format for the API
-        after = int(start_date.timestamp()) if start_date else int(datetime.now().timestamp() - 86400)
-        before = int(end_date.timestamp()) if end_date else int(datetime.now().timestamp())
+        after = int(start_date.timestamp()) \
+            if start_date else int(datetime.now().timestamp() - 86400)
+        before = int(end_date.timestamp()) \
+            if end_date else int(datetime.now().timestamp())
 
         # Fetch comments from the subreddit
         comments = fetch_comments(
@@ -79,7 +82,8 @@ async def analyze_comments(
     for comment in comments:
         # Check for required fields in comment dictionary
         if not all(key in comment for key in ["id", "text", "created_at"]):
-            raise HTTPException(status_code=500, detail="Invalid data format in comments")
+            raise HTTPException(status_code=500,
+                                detail="Invalid data format in comments")
 
         # Ensure text analysis based on method
         if method == "keywords":
@@ -89,13 +93,15 @@ async def analyze_comments(
         elif method == "vader":
             polarity = analyze_sentiment_vader(comment["text"])
         else:
-            polarity = "unknown" # Default to unknown if method is not recognized
+            polarity = "unknown"
+            # Default to unknown if method is not recognized
 
         # Append analyzed comment to the list
         analyzed_comments.append({
             "id": comment["id"],
             "text": comment["text"],
-            "timestamp": datetime.fromtimestamp(comment["created_at"], tz=timezone.utc).isoformat(),
+            "timestamp": datetime.fromtimestamp(comment["created_at"],
+                                                tz=timezone.utc).isoformat(),
             "polarity": polarity
         })
     # Sort comments by polarity if specified

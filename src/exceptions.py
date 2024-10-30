@@ -7,5 +7,8 @@ from fastapi import HTTPException, status
 
 # Custom exception for handling errors during data ingestion
 class CommentAnalysisException(HTTPException):
-    def __init__(self, detail: str = "An error occurred during comment analysis"):
-        super().__init__(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=detail)
+
+    def __init__(self, detail: str = "An error occurred"):
+        super().__init__(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=detail)

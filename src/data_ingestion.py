@@ -10,7 +10,12 @@ import psycopg2
 from typing import List, Dict
 
 # Function to fetch comments from a PostgreSQL database
-def fetch_comments(subfeddit_id: list, after: int, before: int, limit: int = 25, keyword: str = None) -> List[Dict]:
+def fetch_comments(subfeddit_id: list,
+                   after: int,
+                   before: int,
+                   limit: int = 25,
+                   keyword: str = None) -> List[Dict]:
+
     """
     Fetches recent comments from a PostgreSQL database.
     :param subfeddit_id: The ID of the subreddit to fetch comments from.
@@ -18,7 +23,7 @@ def fetch_comments(subfeddit_id: list, after: int, before: int, limit: int = 25,
     :param before: Fetch comments before this date (epoch timestamp).
     :param limit: The maximum number of comments to retrieve.
     :param keyword: A keyword to filter comments.
-    :return: A list of dictionaries, each containing the ID, body, and created timestamp of a comment
+    :return: A list of dictionaries containing the fetched comments.
     """
     cursor = None
     conn = None
@@ -34,10 +39,10 @@ def fetch_comments(subfeddit_id: list, after: int, before: int, limit: int = 25,
         print("Connection successful!")
         # Connect to the database
         query = """
-            SELECT id, text, created_at 
+            SELECT id, text, created_at
             FROM comment
             WHERE subfeddit_id = ANY(%s)
-              AND created_at >= %s 
+              AND created_at >= %s
               AND created_at <= %s
         """
 
@@ -61,7 +66,8 @@ def fetch_comments(subfeddit_id: list, after: int, before: int, limit: int = 25,
 
     except Exception as e:
         print(f"Error during data fetching: {e}")
-        returns = []  # Return an empty list in case of an error
+        returns = []
+        # Return an empty list in case of an error
 
     finally:
         # Safely close the cursor and connection
@@ -69,8 +75,3 @@ def fetch_comments(subfeddit_id: list, after: int, before: int, limit: int = 25,
             cursor.close()
         if 'conn' in locals():
             conn.close()
-
-
-# Execute the function
-#results_comments = fetch_comments([1, 2, 3], 1635200000, 1635460000, 25)
-#print(results_comments)

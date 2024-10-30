@@ -9,9 +9,12 @@ This module contains the functions to analyze the sentiment of a comment.
 # Importing the necessary libraries
 from textblob import TextBlob
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from Test import test_analysis
 
 # Polarity analysis with keywords
+
 def analyze_sentiment_keywords(comment: str) -> str:
+
     """
     This function analyzes the sentiment of a comment based on
     the presence of certain keywords
@@ -29,7 +32,9 @@ def analyze_sentiment_keywords(comment: str) -> str:
     return "negative"
 
 # Polarity analysis with TextBlob
+
 def analyze_sentiment_textblob(comment: str) -> str:
+
     """
     This function analyzes the sentiment of a comment using TextBlob
     :param comment:
@@ -41,7 +46,9 @@ def analyze_sentiment_textblob(comment: str) -> str:
     return "positive" if polarity >= 0 else "negative"
 
 # Polarity analysis with VADER
+
 def analyze_sentiment_vader(comment: str) -> str:
+
     """
     This function analyzes the sentiment of a comment using VADER
     :param comment:
