@@ -50,7 +50,6 @@ def analyze_sentiment_textblob(comment: str) -> str:
 
 def analyze_sentiment_vader(comment: str) -> str:
 
-
     """
     This function analyzes the sentiment of a comment using VADER
     :param comment:

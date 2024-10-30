@@ -17,7 +17,6 @@ def fetch_comments(subfeddit_id: list,
                    limit: int = 25,
                    keyword: str = None) -> List[Dict]:
 
-
     """
     Fetches recent comments from a PostgreSQL database.
     :param subfeddit_id: The ID of the subreddit to fetch comments from.

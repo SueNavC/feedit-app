@@ -1,0 +1,5 @@
+# .flake8
+[flake8]
+max-line-length = 79
+exclude = .git,__pycache__,venv
+ignore = E501, W292, E02, E04  # line too long, no newline at end of file
