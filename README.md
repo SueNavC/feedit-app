@@ -1,31 +1,111 @@
-# Introduction
+---
 
-The `docker-compose.yml` file provides access to `Feddit` which is a fake reddit API built to complete the Allianz challenge. 
+# Feddit API - README
 
-# How-to-run
-1. Please make sure you have docker installed.
-2. To run `Feddit` API locally in the terminal, replace `<path-to-docker-compose.yml>` by the actual path of the given `docker-compose.yml` file in `docker compose -f <path-to-docker-compose.yml> up -d`. It should be available in [http://0.0.0.0:8080](http://0.0.0.0:8080). 
-3. To stop `Feddit` API in the terminal,  replace `<path-to-docker-compose.yml>` by the actual path of the given `docker-compose.yml` file in `docker compose -f <path-to-docker-compose.yml> down`.
+## Introduction
 
-# API Specification
-Please visit either [http://0.0.0.0:8080/docs](http://0.0.0.0:8080/docs) or [http://0.0.0.0:8080/redoc](http://0.0.0.0:8080/redoc) for the documentation of available endpoints and examples of the responses.
-There are 3 subfeddits available. For each subfeddit there are more than 20,000 comments, that is why we use pagination in the JSON response with the following parameters:
+The `Feddit` API simulates a Reddit-like platform, created as part of the Allianz challenge. This service provides
+access to `subfeddits` and `comments` with sentiment analysis capabilities, enabling data ingestion and automated
+analysis of interactions.
 
-+ `skip` which is the number of comments to be skipped for each query
-+ `limit` which is the max returned number of comments in a JSON response.
+## How to Run
 
-# Data Schemas
-## Comment
+1. **Ensure Docker is Installed**: Please verify that Docker is installed and running on your system.
 
-+ **id**: unique identifier of the comment.
-+ **username**: user who made/wrote the comment.
-+ **text**: content of the comment in free text format.
-+ **created_at**: timestamp in unix epoch time indicating when the comment was made/wrote.
+2. **Running the API**: Open the terminal, navigate to the directory containing `docker-compose.yml`, and start the API
+   with:
+   ```sh
+   docker compose -f <path-to-docker-compose.yml> up -d
+   ```
+   This will start the API service, which will be accessible at [http://0.0.0.0:8080](http://0.0.0.0:8080).
 
-## Subfeddit
-+ **id**: unique identifier of the subfeddit
-+ **username**: user who started the subfeddit.
-+ **title**: topic of the subfeddit.
-+ **description**: short description of the subfeddit.
-+ **comments**: comments under the subfeddit.
+3. **Stopping the API**: To stop the `Feddit` API service, run:
+   ```sh
+   docker compose -f <path-to-docker-compose.yml> down
+   ```
 
+## API Specification
+
+The `Feddit` API provides multiple endpoints to access and analyze data. Documentation of all endpoints is available at:
+
+- [Swagger UI](http://0.0.0.0:8080/docs) - interactive API documentation.
+- [ReDoc](http://0.0.0.0:8080/redoc) - API reference documentation.
+
+### Available Endpoints:
+
+- **GET /**: Root endpoint to verify the API is running.
+- **POST /analyze/**: Analyzes comments in selected subfeddits using sentiment analysis. Parameters:
+    - `subfeddit_id`: A list of IDs for the subfeddits to be analyzed.
+    - `method`: Sentiment analysis method (`keywords`, `textblob`, `vader`).
+    - `start_date` and `end_date`: Timestamps to filter comments by date.
+    - `sort_by_polarity`: Sorts comments based on polarity score.
+    - `limit`: Maximum number of comments returned.
+    - `keyword`: Filters comments based on specific keywords.
+    - `save_to_csv`: If `True`, saves results as a CSV.
+
+### Pagination
+
+To manage large data volumes, pagination parameters are available in the `/analyze/` endpoint:
+
+- **skip**: Number of comments to skip for the query.
+- **limit**: Maximum number of comments returned in the response.
+
+## Data Schemas
+
+### Comment
+
+| Field       | Type    | Description                           |
+|-------------|---------|---------------------------------------|
+| `id`        | Integer | Unique identifier of the comment      |
+| `username`  | String  | User who posted the comment           |
+| `text`      | String  | Content of the comment                |
+| `created_at`| Integer | Timestamp in Unix epoch time          |
+
+### Subfeddit
+
+| Field         | Type    | Description                                      |
+|---------------|---------|--------------------------------------------------|
+| `id`          | Integer | Unique identifier of the subfeddit               |
+| `username`    | String  | User who started the subfeddit                   |
+| `title`       | String  | Topic of the subfeddit                           |
+| `description` | String  | Short description of the subfeddit               |
+| `comments`    | Array   | Array of `Comment` objects under the subfeddit   |
+
+## Example Usage
+
+To test the `/analyze/` endpoint for sentiment analysis:
+
+1. **Start the FastAPI server**:
+   ```sh
+   uvicorn src.main:app --reload
+   ```
+2. **Access Documentation**: Visit [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) to try out and interact with
+   the API.
+
+3. **Sample Request**:
+   ```json
+   {
+     "subfeddit_id": [1, 2, 3],
+     "method": "textblob",
+     "start_date": "2023-01-01",
+     "end_date": "2023-01-31",
+     "sort_by_polarity": true,
+     "limit": 50,
+     "keyword": "awesome",
+     "save_to_csv": true
+   }
+   ```
+
+## Development
+
+- **Volumes**:
+   - `feedit-app_db_data`: Persists database data between sessions.
+- **Note**: Ensure all required dependencies are included in `requirements.txt`.
+
+## Automated End-to-End Testing
+
+1. **GitHub Actions**: CI/CD setup can be verified to ensure integration and deployment of any updates.
+2. **Data Ingestion & Analysis**: Run the full flow from data ingestion in `data_ingestion.py` to API requests in
+   `main.py`.
+
+---

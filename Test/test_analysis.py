@@ -1,12 +1,22 @@
+"""
+This module contains the unit tests for the sentiment analysis functions.
+"""
+# Unit tests for the sentiment analysis functions
+# By Susana Navarro
+# 25/10/2024
+
+
 import unittest
-from sentiment_analysis import analyze_sentiment_keywords, analyze_sentiment_textblob, analyze_sentiment_vader
+from src.sentiment_analysis import (analyze_sentiment_keywords,
+                                    analyze_sentiment_textblob,
+                                    analyze_sentiment_vader)
 
 
 class TestSentimentAnalysis(unittest.TestCase):
     """
-    This class contains the unit tests for the sentiment analysis functions.
+    This class contains the unit tests
+    for the sentiment analysis functions.
     """
-
     # Test for the keyword-based sentiment analysis function
     def test_analyze_sentiment_keywords(self):
         self.assertEqual(analyze_sentiment_keywords("This is a good product"), "positive")

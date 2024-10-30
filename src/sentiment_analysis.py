@@ -1,29 +1,40 @@
 """
 This module contains the functions to analyze the sentiment of a comment.
 """
+# Polarity analysis with diferent methods
+# By Susana Navarro
+# 25/10/2024
 
+
+# Importing the necessary libraries
 from textblob import TextBlob
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Polarity analysis with keywords
 def analyze_sentiment_keywords(comment: str) -> str:
     """
-    This function analyzes the sentiment of a comment based on the presence of certain keywords
+    This function analyzes the sentiment of a comment based on
+    the presence of certain keywords
     :param comment:
-    :return: "positive" if the comment contains "good" or "great", "negative" if it contains "bad" or "terrible".
+    :return: "positive" if the comment contains "good" or "great",
+             "negative" if it contains "bad" or "terrible".
     """
-    if "good" in comment.lower() or "great" in comment.lower():
+    if ("good" in comment.lower()
+            or "great" in comment.lower()):
         return "positive"
-    elif "bad" in comment.lower() or "terrible" in comment.lower():
+    elif ("bad" in comment.lower()
+          or "terrible" in comment.lower()):
         return "negative"
-    return "negative"  # Default to negative if no keywords are found
+    # Default to negative if no keywords are found
+    return "negative"
 
 # Polarity analysis with TextBlob
 def analyze_sentiment_textblob(comment: str) -> str:
     """
     This function analyzes the sentiment of a comment using TextBlob
     :param comment:
-    :return: "positive" if the polarity is greater than 0, "negative" if the polarity is less or equal than 0.
+    :return: "positive" if the polarity is greater than 0,
+             "negative" if the polarity is less or equal than 0.
     """
     analysis = TextBlob(comment)
     polarity = analysis.sentiment.polarity
@@ -34,7 +45,8 @@ def analyze_sentiment_vader(comment: str) -> str:
     """
     This function analyzes the sentiment of a comment using VADER
     :param comment:
-    :return: "positive" if the compound score is greater than 0, "negative" if the compound score is less ot equal than 0.
+    :return: "positive" if the compound score is greater than 0,
+             "negative" if the compound score is less ot equal than 0.
     """
     analyzer = SentimentIntensityAnalyzer()
     score = analyzer.polarity_scores(comment)["compound"]
