@@ -22,11 +22,11 @@ def analyze_sentiment_keywords(comment: str) -> str:
     :return: "positive" if the comment contains "good" or "great",
              "negative" if it contains "bad" or "terrible".
     """
-    if ("good" in comment.lower()
-            or "great" in comment.lower()):
+    if ("good" in comment.lower() or
+            "great" in comment.lower()):
         return "positive"
-    elif ("bad" in comment.lower()
-          or "terrible" in comment.lower()):
+    elif ("bad" in comment.lower() or
+          "terrible" in comment.lower()):
         return "negative"
     # Default to negative if no keywords are found
     return "negative"
