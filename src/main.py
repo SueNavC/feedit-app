@@ -22,6 +22,7 @@ app = FastAPI()
 # Root endpoint to verify the API is running
 @app.get("/")
 
+
 async def root():
     return {"message": "Hello, Feddit API!"}
 
@@ -34,6 +35,7 @@ async def get_version():
 # Endpoint to analyze comments within a given subreddit
 @app.post("/analyze/")
 
+
 async def analyze_comments(
     subfeddit_id: Optional[List[int]] = None,
     method: Literal["keywords", "textblob", "vader"] = Query(...),
@@ -44,8 +46,9 @@ async def analyze_comments(
     keyword: Optional[str] = None,
     save_to_csv: bool = False
 ):
+    # Default subfeddit IDs
     if subfeddit_id is None:
-        subfeddit_id = [1, 2, 3]  # Default subfeddit IDs
+        subfeddit_id = [1, 2, 3]
 
     print(
         f"Parameters received - subfeddit_id: {subfeddit_id}, "

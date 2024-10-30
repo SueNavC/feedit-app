@@ -6,7 +6,9 @@ This is exception handling module.
 from fastapi import HTTPException, status
 
 # Custom exception for handling errors during data ingestion
+
 class CommentAnalysisException(HTTPException):
+
 
     def __init__(self, detail: str = "An error occurred"):
         super().__init__(

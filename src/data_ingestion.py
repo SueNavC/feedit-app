@@ -10,11 +10,13 @@ import psycopg2
 from typing import List, Dict
 
 # Function to fetch comments from a PostgreSQL database
+
 def fetch_comments(subfeddit_id: list,
                    after: int,
                    before: int,
                    limit: int = 25,
                    keyword: str = None) -> List[Dict]:
+
 
     """
     Fetches recent comments from a PostgreSQL database.
